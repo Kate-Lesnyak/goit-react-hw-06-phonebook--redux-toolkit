@@ -3,8 +3,10 @@ import { Formik } from 'formik';
 
 // import {  useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
-import { addContact } from 'redux/actions';
+
 // import { getContacts } from 'redux/selectors';
+// import { addContact } from 'redux/actions';
+import { addContact } from 'redux/contactsSlice';
 
 // import * as Yup from 'yup';
 // import 'yup-phone';
