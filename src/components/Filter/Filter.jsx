@@ -1,8 +1,6 @@
 import { DebounceInput } from 'react-debounce-input';
 import { useDispatch, useSelector } from 'react-redux';
 
-// import { setFilterValue } from 'redux/actions';
-// import { getFilter } from 'redux/selectors';
 import { setFilterValue, getFilter } from 'redux/filterSlice';
 
 import { StyledFilter, StyledInput } from './Filter.styled';

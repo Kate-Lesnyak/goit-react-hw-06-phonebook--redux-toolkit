@@ -4,7 +4,6 @@ import * as Yup from 'yup';
 
 import { useSelector, useDispatch } from 'react-redux';
 
-// import { getContacts } from 'redux/selectors';
 import { addContact, getContacts } from 'redux/contactsSlice';
 
 import {
