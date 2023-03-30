@@ -1,12 +1,12 @@
 import { useSelector } from 'react-redux';
-import { getContacts } from 'redux/selectors';
+// import { getContacts } from 'redux/selectors';
+import { getContacts } from 'redux/contactsSlice';
+import { ContactForm } from 'components/ContactForm';
+import { ContactList } from 'components/ContactList';
+import { Filter } from 'components/Filter';
+import { Notification } from 'components/Notification';
 
-import { ContactForm } from '../ContactForm';
-import { ContactList } from '../ContactList';
-import { Filter } from '../Filter';
-import { Notification } from '../Notification';
-
-import { GlobalStyle } from '../styles/GlobalStyle';
+import { GlobalStyle } from 'components/styles/GlobalStyle';
 import { Container, Section } from './App.styled';
 
 export const App = () => {

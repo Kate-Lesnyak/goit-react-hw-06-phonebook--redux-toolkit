@@ -1,37 +1,13 @@
 // import { createStore } from "redux";
 // import { devToolsEnhancer } from "@redux-devtools/extension";
 // import { rootReducer } from "./reducer";
-
-// const enhancer = devToolsEnhancer();
-// export const store = createStore(rootReducer, enhancer);
-
-import { configureStore } from "@reduxjs/toolkit";
-import { persistStore, persistReducer } from "redux-persist";
-import storage from "redux-persist/lib/storage";
-
-// * change import on slice
 // import { contactsReducer, filterReducer } from "./reducer";
 
-import { contactsReducer } from "./contactsSlice";
-import { filterReducer } from "./filterSlice";
+// const enhancer = devToolsEnhancer();
 
-const persistConfig = {
-  key: 'contacts',
-  storage,
-}
+// export const store = createStore(rootReducer, enhancer);
 
-const persistedContactsReducer = persistReducer(persistConfig, contactsReducer);
-
-export const store = configureStore({
-  reducer: {
-    contacts: persistedContactsReducer,
-    filter: filterReducer,
-  },
-});
-
-export const persistor = persistStore(store);
-
-
+// import { configureStore } from "@reduxjs/toolkit";
 // export const store = configureStore({
 //   reducer: {
 //     contacts: contactsReducer,
@@ -39,24 +15,46 @@ export const persistor = persistStore(store);
 //   },
 // });
 
+import { combineReducers, configureStore } from "@reduxjs/toolkit";
+import {
+  persistStore,
+  FLUSH,
+  REHYDRATE,
+  PAUSE,
+  PERSIST,
+  PURGE,
+  REGISTER,
+} from "redux-persist";
+import { persistReducer } from "redux-persist";
+import storage from "redux-persist/lib/storage";
 
+import { contactsReducer } from "./contactsSlice";
+import { filterReducer } from "./filterSlice";
 
+const rootReducer = combineReducers({
+  contacts: contactsReducer,
+  filter: filterReducer,
+})
 
-// {
-//   contacts: [],
-//     filter: """"
-// }
+const persistConfig = {
+  key: 'root',
+  storage,
+  whitelist: ['contacts'],
+};
 
-// const rootReducer = combineReducers({
-//   contacts: cR,
-//   filter: fR
-// })
+const persistedReducer = persistReducer(persistConfig, rootReducer)
 
-// const persistConfig = {
-//   key: 'root',
-//   storage,
-//   whitelist: ['contacts'] // only navigation will be persisted
-// };
+export const store = configureStore({
+  reducer: persistedReducer,
+  middleware(getDefaultMiddleware) {
+    return getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+      },
+    });
+  },
+});
 
-// const persistedReducer = persistReducer(persistConfig, rootReducer)
+export const persistor = persistStore(store);
+
 

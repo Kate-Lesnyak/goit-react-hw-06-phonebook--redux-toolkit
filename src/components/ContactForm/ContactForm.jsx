@@ -4,8 +4,8 @@ import * as Yup from 'yup';
 
 import { useSelector, useDispatch } from 'react-redux';
 
-import { getContacts } from 'redux/selectors';
-import { addContact } from 'redux/contactsSlice';
+// import { getContacts } from 'redux/selectors';
+import { addContact, getContacts } from 'redux/contactsSlice';
 
 import {
   StyledForm,
@@ -27,7 +27,7 @@ const formSchema = Yup.object({
   number: Yup.string()
     .matches(/^\+?(\d{1,2})?[-.\s]?\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}$/, {
       message:
-        'Invalid number. Phone number must be digits and can contain spaces, dashes, parentheses and can start with +. For example: (123) 456-7890, 123-456-7890, 123.456.7890, 1234567890,+91 (123) 456-7890',
+        'Invalid number. Phone number must be digits and can contain spaces, dashes, parentheses and can start with +. For example: (123) 456-7890, 123-456-7890, 123.456.7890, 1234567890, +91 (123) 456-7890',
     })
     .required('Number is a required field'),
 });
@@ -37,11 +37,17 @@ export const ContactForm = () => {
   const dispatch = useDispatch();
 
   const handleSubmit = (values, { resetForm }) => {
+    // const normalizedName = contacts.find(contact =>
+    //   contact.name.toLowerCase().includes(values.name.toLowerCase())
+    // );
+    // if (normalizedName) {
+    //   return Notify.info(`${values.name} is already in contacts!`);
+    // }
+
     const normalizedName = values.name.toLowerCase();
     const nameExists = contacts.find(
       ({ name }) => name.toLowerCase() === normalizedName
     );
-
     if (nameExists) {
       return Notify.info(`${values.name} is already in contacts!`);
     }
